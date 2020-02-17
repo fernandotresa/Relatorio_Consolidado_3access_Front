@@ -1,0 +1,121 @@
+<ion-content>    
+
+  <div class="content">
+    <div class="container-fluid" style="padding: 0vh 15vh">
+
+      <div class="row" style="margin-top: 5vh">
+        <div class="col-md-4 offset-md-4 text-center">
+          <img src="https://static.wixstatic.com/media/867d0e_00f301e7c2c14fb285c006a31667c80c.jpg/v1/fill/w_351,h_97,al_c,q_80,usm_0.66_1.00_0.01/867d0e_00f301e7c2c14fb285c006a31667c80c.webp" width="50%" />
+        </div>
+      </div>
+
+    
+      <div class="row" style="margin-top: 5vh">
+
+        <div class="col-md-12" style="font-size: 18px;">
+
+          <div class="card card-plain">
+
+            <div class="card-body pd-15" style="font-size: 18px;">
+              
+              <div class="row pd-15">                   
+                              
+                <div class="col-md-3">
+                  <div class="form-group bmd-form-group">
+                    <ion-label stacked>Data Inicial</ion-label>  
+                    <ion-datetime 
+                    cancelText="Cancelar"
+                    doneText="Ok"
+                    displayFormat="DD/MM/YYYY" 
+                    pickerFormat="DD MM YYYY" 
+                    [(ngModel)]="dataSelecionada" 
+                    (ionChange)="dataModificada()">
+                  </ion-datetime>   
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group bmd-form-group">
+                    <ion-label stacked>Data Final</ion-label>  
+                    <ion-datetime 
+                    cancelText="Cancelar"
+                    doneText="Ok"
+                    displayFormat="DD/MM/YYYY" 
+                    pickerFormat="DD MM YYYY" 
+                    [(ngModel)]="dataSelecionadaFinal" 
+                    (ionChange)="dataFinalModificada()">
+                  </ion-datetime>   
+                  </div>
+                </div>     
+                
+                <div class="col-md-2" *ngIf="false">  
+                  <ion-label class="bmd-label-floating font-padrao">Selecionar bancos</ion-label>  
+                    <ion-select [(ngModel)]="databasesSelecteds" multiple="true" class="font-padrao">
+                      <ion-option *ngFor="let database of allDatabases">{{database}}</ion-option>  
+                  </ion-select>                          
+                </div>
+
+                <div class="col-md-6">
+                  <button class="btn btn-block btn-danger font-padrao" (click)="gerarRelatorio()">Gerar relatório</button>
+                </div>
+                
+                
+              </div>
+            
+            <div class="card-header card-header-danger font-padrao">
+              Relatório consolidados
+            </div>
+
+            
+            <div class="card-body">
+
+              <div class="table-responsive">
+                <table class="table table-hover  font-padrao">
+                  <thead>
+                    <th style="font-size: 18px;">#</th>
+                    <th style="font-size: 18px;">Data Solicitação</th>
+                    <th style="font-size: 18px;">Data inicial</th>
+                    <th style="font-size: 18px;">Data final</th>
+                    <th style="font-size: 18px;">Status</th>
+
+                    <th></th>
+                  </thead>
+                  <tbody *ngFor="let data of allDataArray; let i = index">
+                    <tr>
+                      <td>{{i+1}}</td>
+                      <td>{{data.datetime}}</td>
+                      <td>{{data.dataInicial}}</td>
+                      <td>{{data.dataFinal}}</td>
+                      <td>{{data.statusRelatorio}}</td>
+                      <td>                                              
+
+                      </td>
+                      <td>
+                        <div class="btn-group pull-right" style="margin-left: 0px" role="group">
+                          <button type="button" style="padding: 15px" class="btn btn-secondary dropdown-toggle font-padrao" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Opções
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropAmbulatorio">                                                        
+                            <a class="dropdown-item" style="font-size: 18px;" (click)="abrir(data)">Abrir</a>                                                                       
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+              
+            </div>
+              
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</ion-content>
+

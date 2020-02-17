@@ -1,0 +1,61 @@
+
+.font-padrao {
+	font-size: 18px;
+}
+
+.font-destacada {
+	font-size: 22px;
+}
+
+.pd-5 {
+	padding: 5px;
+}
+
+.pd-15 {
+	padding: 15px;
+}
+
+.pd-50 {
+	padding: 50px;
+}
+
+.ml-0 {
+	margin-left: 0px
+}
+
+.ml-10 {
+	margin-left: 10px
+}
+
+.mt-5 {
+	margin-top: 5px;
+}
+
+.mt-5vh {
+	margin-top: 5vh;
+}
+
+.background-menu {
+	background: linear-gradient(180deg, rgba(244,67,54,1) 0%, rgb(223, 63, 52) 100%); 
+	border-radius: 10px;
+}
+
+a:link:active, a:visited:active {
+	font-size: 22px;
+  }
+
+
+  .file-input {
+    opacity: 0;
+    position: absolute;
+    transform: translate(-50%, -50%);    
+  }  
+  
+  .file-input.ng-invalid {
+    border-bottom-color: transparent;
+  }
+ 
+  .file-input.ng-valid {
+    border-bottom-color: transparent;
+  }
+
