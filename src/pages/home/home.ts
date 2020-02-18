@@ -4,7 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import * as moment from 'moment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AlertController, LoadingController  } from 'ionic-angular';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { LocaleDataIndex } from '@angular/common/src/i18n/locale_data';
 
 @Component({
   selector: 'page-home',
@@ -23,13 +24,15 @@ export class HomePage {
   databasesSelecteds: any
   allDatabases: any = []
 
-  address: string = "http://localhost:8085"
+  address: string = "http://3.212.93.86:8085"
 
   constructor(
     public alertCtrl: AlertController,     
     public navCtrl: NavController, 
     public platform: Platform,  
     public http: HttpClient,
+    public loadingCtrl: LoadingController,
+    private iab: InAppBrowser,
     public navParams: NavParams) {
 
     
@@ -61,14 +64,16 @@ export class HomePage {
     this.dataSelecionada = moment().add(-1, 'month').format() 
     this.dataSelecionadaFinal = moment().format()       
     this.reload()    
+
   } 
 
   gerarRelatorio(){
 
-    this.add().subscribe(() => {
-      console.log('Sucesso!')
+    this.add().subscribe(() => {      
+      
+      this.reload()
+      this.showAlertSuccess()
     })
-
    
   }  
 
@@ -95,28 +100,69 @@ export class HomePage {
  
   reload(){    
 
- 
+    let loading = this.showLoading("Gerando relatório. Favor aguarde....")
+    loading.present()
+
+    this.get().subscribe((data) => {
+      console.log('Sucesso!')
+
+      this.reloadCallback(data)
+      loading.dismiss()
+      
+    })
   }
 
   reloadCallback(data){
 
     this.allDataArray = []
     
-    data.forEach(element => {
+    data.success.forEach(element => {
+     
+      element.datetime = moment(element.datetime).format("DD/MM/YYYY hh:mm:ss")
+      element.dataInicial = moment(element.dataInicial).format("DD/MM/YYYY")
+      element.dataFinal = moment(element.dataFinal).format("DD/MM/YYYY")
 
-      let val = element.payload.val()
-      val.key = element.payload.key
-      val.dataInicial = moment(val.dataInicial).format("DD/MM/YYYY")
-      val.dataFinal = moment(val.dataFinal).format("DD/MM/YYYY")
-
-      this.allDataArray.push(val)
-      console.log(val)
+      this.allDataArray.push(element)
+      console.log(element)
     });
   }
    
   abrir(data){
-    console.log(data)
+    this.iab.create(data.filename);
   }
+
+  showAlertSuccess(){
+    let alert = this.showAlert("Sucesso", "Operação realizada com sucesso!")
+      
+    return alert.present()
+    .then( () => {
+      setTimeout(function(){
+        alert.dismiss();
+      }, 3000);        
+    })
+  }
+
+  showAlert(title_: string, subtitle_: string) {
+    
+    let alert = this.alertCtrl.create({
+      title: title_,
+      subTitle: subtitle_,
+      
+      enableBackdropDismiss: false,
+      buttons: ['OK']
+    });
+    
+    return alert
+  }
+
+  showLoading(title: string){
+    let loading = this.loadingCtrl.create({
+      content: title
+    });
+
+    return loading
+  }
+
   
   
 
