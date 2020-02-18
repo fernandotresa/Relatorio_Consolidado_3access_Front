@@ -5,7 +5,6 @@ import * as moment from 'moment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AlertController, LoadingController  } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
-import { LocaleDataIndex } from '@angular/common/src/i18n/locale_data';
 
 @Component({
   selector: 'page-home',
@@ -24,7 +23,8 @@ export class HomePage {
   databasesSelecteds: any
   allDatabases: any = []
 
-  address: string = "http://3.212.93.86:8085"
+  //address: string = "http://3.212.93.86:8085"
+  address: string = "http://localhost:8085"
 
   constructor(
     public alertCtrl: AlertController,     
@@ -61,17 +61,26 @@ export class HomePage {
   } 
 
   startInterface(){
-    this.dataSelecionada = moment().add(-1, 'month').format() 
-    this.dataSelecionadaFinal = moment().format()       
+   // this.dataSelecionada = moment().add(-1, 'month').format() 
+   // this.dataSelecionadaFinal = moment().format()       
+
+    this.dataSelecionada = moment("2020-01-01T00:00:00").format() 
+    this.dataSelecionadaFinal = moment("2020-01-15T00:00:00").format()       
+
     this.reload()    
 
   } 
 
   gerarRelatorio(){
 
+    let loading = this.showLoading("Carregando informações. Favor aguarde....")
+    loading.present()
+
     this.add().subscribe(() => {      
       
       this.reload()
+
+      loading.dismiss()
       this.showAlertSuccess()
     })
    
@@ -99,15 +108,9 @@ export class HomePage {
 
  
   reload(){    
-
-    let loading = this.showLoading("Gerando relatório. Favor aguarde....")
-    loading.present()
-
+    
     this.get().subscribe((data) => {
-      console.log('Sucesso!')
-
       this.reloadCallback(data)
-      loading.dismiss()
       
     })
   }
@@ -119,8 +122,8 @@ export class HomePage {
     data.success.forEach(element => {
      
       element.datetime = moment(element.datetime).format("DD/MM/YYYY hh:mm:ss")
-      element.dataInicial = moment(element.dataInicial).format("DD/MM/YYYY")
-      element.dataFinal = moment(element.dataFinal).format("DD/MM/YYYY")
+      element.dataInicio = moment(element.dataInicio).format("DD/MM/YYYY")
+      element.dataFim = moment(element.dataFim).format("DD/MM/YYYY")
 
       this.allDataArray.push(element)
       console.log(element)
