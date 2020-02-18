@@ -63,7 +63,7 @@ export class HomePage {
   startInterface(){
     this.dataSelecionada = moment().add(-1, 'month').format() 
     this.dataSelecionadaFinal = moment().endOf('day').format()           
-    this.reload()    
+    //this.reload()    
   } 
 
   gerarRelatorio(){
@@ -77,15 +77,21 @@ export class HomePage {
     this.dataSelecionada = di.set({hour: 0,minute:0,second:0,millisecond:1}).format("YYYY-MM-DDTHH:mm:ss")       
     this.dataSelecionadaFinal = df.set({hour:23,minute:59,second:59,millisecond:59}).format("YYYY-MM-DDTHH:mm:ss")       
 
-    this.add().subscribe(() => {      
+    this.add().subscribe((data) => {      
       
-      this.reload()
+      //this.reload()
 
       loading.dismiss()
-      this.showAlertSuccess()
+      this.showAlertSuccess()      
+      this.addCallback(data)
     })
    
   }   
+
+  addCallback(data){
+    console.log(data)
+    this.iab.create(data.success);
+  }
 
   add(){    
     let myData = JSON.stringify({id: 1, dataInicial: this.dataSelecionada, dataFinal: this.dataSelecionadaFinal});
