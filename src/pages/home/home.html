@@ -18,33 +18,20 @@
 
             <div class="card-body pd-15" style="font-size: 18px;">
               
-              <div class="row pd-15">                   
+              <div class="row pd-15">   
+
                               
                 <div class="col-md-3">
                   <div class="form-group bmd-form-group">
                     <ion-label stacked>Data Inicial</ion-label>  
-                    <ion-datetime 
-                    cancelText="Cancelar"
-                    doneText="Ok"
-                    displayFormat="DD/MM/YYYY" 
-                    pickerFormat="DD MM YYYY" 
-                    [(ngModel)]="dataSelecionada" 
-                    (ionChange)="dataModificada()">
-                  </ion-datetime>   
+                    <input type="date" [ngModel] ="dataSelecionada | date:'yyyy-MM-dd'" (ngModelChange)="dataSelecionada = $event">                
                   </div>
                 </div>
 
                 <div class="col-md-3">
                   <div class="form-group bmd-form-group">
                     <ion-label stacked>Data Final</ion-label>  
-                    <ion-datetime 
-                    cancelText="Cancelar"
-                    doneText="Ok"
-                    displayFormat="DD/MM/YYYY" 
-                    pickerFormat="DD MM YYYY" 
-                    [(ngModel)]="dataSelecionadaFinal" 
-                    (ionChange)="dataFinalModificada()">
-                  </ion-datetime>   
+                    <input type="date" [ngModel] ="dataSelecionadaFinal | date:'yyyy-MM-dd'" (ngModelChange)="dataSelecionadaFinal = $event">                                   
                   </div>
                 </div>     
                 

@@ -23,8 +23,8 @@ export class HomePage {
   databasesSelecteds: any
   allDatabases: any = []
 
-  //address: string = "http://3.212.93.86:8085"
-  address: string = "http://localhost:8085"
+  address: string = "http://3.212.93.86:8085"
+  //address: string = "http://localhost:8085"
 
   constructor(
     public alertCtrl: AlertController,     
@@ -61,20 +61,21 @@ export class HomePage {
   } 
 
   startInterface(){
-   // this.dataSelecionada = moment().add(-1, 'month').format() 
-   // this.dataSelecionadaFinal = moment().format()       
-
-    this.dataSelecionada = moment("2020-01-01T00:00:00").format() 
-    this.dataSelecionadaFinal = moment("2020-01-15T00:00:00").format()       
-
+    this.dataSelecionada = moment().add(-1, 'month').format() 
+    this.dataSelecionadaFinal = moment().endOf('day').format()           
     this.reload()    
-
   } 
 
   gerarRelatorio(){
 
     let loading = this.showLoading("Carregando informações. Favor aguarde....")
     loading.present()
+
+    var di = moment(this.dataSelecionada).utc();
+    var df = moment(this.dataSelecionadaFinal).utc();
+
+    this.dataSelecionada = di.set({hour: 0,minute:0,second:0,millisecond:1}).format("YYYY-MM-DDTHH:mm:ss")       
+    this.dataSelecionadaFinal = df.set({hour:23,minute:59,second:59,millisecond:59}).format("YYYY-MM-DDTHH:mm:ss")       
 
     this.add().subscribe(() => {      
       
@@ -84,15 +85,7 @@ export class HomePage {
       this.showAlertSuccess()
     })
    
-  }  
-
-  dataModificada(){
-    console.log('Data Inicial modificada: ', this.dataSelecionada)
-  }
-
-  dataFinalModificada(){
-    console.log('Data Final modificada: ', this.dataSelecionadaFinal)
-  }
+  }   
 
   add(){    
     let myData = JSON.stringify({id: 1, dataInicial: this.dataSelecionada, dataFinal: this.dataSelecionadaFinal});
@@ -126,7 +119,6 @@ export class HomePage {
       element.dataFim = moment(element.dataFim).format("DD/MM/YYYY")
 
       this.allDataArray.push(element)
-      console.log(element)
     });
   }
    
