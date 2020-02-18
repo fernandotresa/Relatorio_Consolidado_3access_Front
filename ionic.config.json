@@ -1,0 +1,7 @@
+{
+  "name": "Relatorio_consolidado_3access_Front",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
